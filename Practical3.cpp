@@ -91,6 +91,21 @@ int minValue(BSTNode* root)
 	}
 	return minValue(root->left);
 }
+void SwapTree(BSTNode* root)
+{
+	struct BSTNode* temp;
+	if(root==NULL)
+	{
+		return;
+	}
+	SwapTree(root->left);
+	SwapTree(root->right);
+	
+	temp = root->left;
+	root->left = root->right;
+	root->right = temp;
+	
+}
 int main()
 {
 	BSTNode* root = NULL;
@@ -112,7 +127,9 @@ int main()
 	{
 		cout<<"\nElement Not Found!!!";
 	}
-	
+	SwapTree(root);
+	cout<<"\nSwap Tree data is : ";
+	Inorder(root);
 }
 
 
