@@ -1,88 +1,121 @@
+/*
+Beginning with an empty binary search tree,
+Construct binary search tree by inserting the values in the order given.
+After constructing a binary tree - 
+i. Insert new node 
+ii. Find number of nodes in longest path 
+iii. Minimum data value found in the tree 
+iv. Change a tree so that the roles of the left and right pointers are swapped at every node 
+v. Search a valu
+*/
 #include<iostream>
-#include<bits/stdc++.h>
 using namespace std;
-class Dictionary
+struct BSTNode
 {
-    public:
-    int key;
-    Dictionary *left;
-    Dictionary *right;
-    Dictionary(int ndata)
-    {
-        key = ndata;
-        left=NULL;
-        right = NULL;
-    }
+	int data;
+	BSTNode* left;
+	BSTNode* right;
 };
-class Copies
+BSTNode* GetNode(int data)
 {
-    public:
-    Dictionary *rootNode;
-    Copies()
-    {
-        rootNode = NULL;
-    }
-    void insertKeys(Dictionary*& rootNode,int data);
-    Dictionary* deletekeys(Dictionary* rootNode,int data);
-    void updateKeys(Dictionary* rootNode,int data);
-    void displayAscendingOrder(Dictionary* rootNode);
-    void displayDescendingOrder(Dictionary* rootNode);
-};
-void Copies::insertKeys(Dictionary*& rootNode,int data)
-{
-    if(rootNode == NULL)
-    {
-        rootNode = new Dictionary(data);
-        return;
-    }
-    if(data<=rootNode->key)
-    {
-        insertKeys(rootNode->left,data);
-    }
-    else{
-        insertKeys(rootNode->right,data);
-    }
+	BSTNode* newNode = new BSTNode();
+	newNode->data = data;
+	newNode->left = NULL;
+	newNode->right = NULL;
+	return newNode;
 }
-void Copies::displayAscendingOrder(Dictionary* rootNode)
+BSTNode* Insert(BSTNode* root,int data)
 {
-    if(rootNode == NULL)
-    {
-        return;
-    }
-    displayAscendingOrder(rootNode->left);
-    cout<<"Data is"<<rootNode->key<<endl;
-    displayAscendingOrder(rootNode->right);
+	if(root==NULL)
+	{
+		root = GetNode(data);
+	}
+	else if(data < root->data)
+	{
+		root->left = Insert(root->left,data);
+	}
+	else
+	{
+		root->right = Insert(root->right,data);
+	}
+	return root;
 }
-void Copies::displayDescendingOrder(Dictionary* rootNode)
+void Inorder(BSTNode* root)
 {
-    if(rootNode == NULL)
-    {
-        return;
-    }
-    displayDescendingOrder(rootNode->right);//visit the right node 1st
-    cout<<"The data is "<<rootNode->key<<endl;//print data when coming back 
-    displayDescendingOrder(rootNode->left);//visit the left node then
+	if(root==NULL)
+	{
+		return;
+	}
+	Inorder(root->left);
+	cout<<root->data<<" ";
+	Inorder(root->right);
 }
-Dictionary* Copies::deletekeys(Dictionary* rootNode, int data)
+bool Search(BSTNode* root,int data)
 {
-    if(rootNode ==  NULL)
-    {
-        return NULL;
-    }
-    if(rootNode->key == data)
-    {
-    
-    }
+	if(root==NULL)
+	{
+		return false;
+	}
+	else if(data == root->data)
+	{
+		return true;
+	}
+	else if(data<root->data)
+	{
+		return Search(root->left,data);
+	}
+	else
+	{
+		return Search(root->right,data);
+	}
+}
+int maxDepth(BSTNode* root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	int lh = maxDepth(root->left);
+	int rh = maxDepth(root->right);
+	return 1+max(lh,rh);
+}
+int minValue(BSTNode* root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	if(root->left == NULL)
+	{
+		return root->data;
+	}
+	return minValue(root->left);
 }
 int main()
 {
-    Copies copy1;
-    copy1.insertKeys(copy1.rootNode,50);
-    copy1.insertKeys(copy1.rootNode,45);
-    copy1.insertKeys(copy1.rootNode,62);
-    copy1.insertKeys(copy1.rootNode,30);
-    copy1.insertKeys(copy1.rootNode,54);
-    copy1.displayAscendingOrder(copy1.rootNode);
-    copy1.displayDescendingOrder(copy1.rootNode);
-    return 0;
+	BSTNode* root = NULL;
+	root = Insert(root,5);
+	root = Insert(root,3);
+	root = Insert(root,6);
+	root = Insert(root,7);
+	root = Insert(root,1);
+	cout<<"Data in Tree is : ";
+	Inorder(root);
+	cout<<"\nMinimum value is : "<<minValue(root);
+	cout<<"\nMaximum Depth is : "<<maxDepth(root);
+	int X = Search(root,12);
+	if(X)
+	{
+		cout<<"\nSearch Successfully... Element Found!!!";
+	}
+	else
+	{
+		cout<<"\nElement Not Found!!!";
+	}
+	
 }
+
+
+
+
+
