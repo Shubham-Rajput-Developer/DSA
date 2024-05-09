@@ -4,53 +4,52 @@ using chaining with / without replacement.
 Data: Set of (key, value) pairs, Keys are mapped to values, Keys must be comparable,
 Keys must be unique. Standard Operations: Insert(key, value), Find(key), Delete(key)
 '''
-size = int(input("Enter size of HashTable : "))
+size = int(input("Enter size of hash Table : "))
 hashTable = {}
 
 def addList(size,dict):
     for i in range(size):
-        hashTable[i] = []
+        dict[i] = []
     return dict
 
-def Insert(size,key,value,dict):
+def Insert(size,key,val,dict):
     lst = []
-    idx = value%size
-    lst +=[key,value]
+    idx = key%size
+    lst += [key,val]
     dict[idx].append(lst)
     return dict
-    
-def Delete(dict,key):
+def Search(key,dict):
+    for i in dict:
+        for j in dict[i]:
+            if(j[0]==key):
+                return j
+    print("Not found !!!!")
+def Delete(key,dict):
     for i in dict:
         for j in dict[i]:
             if(j[0]==key):
                 dict[i].remove(j)
     return dict
- 
-def Search(dict,key):
-    for i in dict:
-        for j in dict[i]:
-            if(j[0]==key):
-                return j
-    print("Not Found!")
     
 dict = addList(size,hashTable)
 
 while(True):
     print("Enter your choice : ")
-    print("1.Inserting Data ")
-    print("2.Deleting Data ")
-    print("3.Search Data")
-    choice = int(input("Input->"))
+    print("1.Insert ")
+    print("2.Search ")
+    print("3.Delete ")
+    ch = int(input("--->"))
     
-    if(choice==1):
-        key = int(input("Enter Key : "))
-        value = int(input("Enter Value : "))
-        print(Insert(size,key,value,dict))
-    elif(choice==2):
-        key = int(input("Enter Key to be Deleted : "))
-        print(Delete(dict,size))
-    elif(choice==3):
-        key = int(input("Enter key to be Search : "))
-        print(Search(dict,key))
+    if(ch==1):
+        key = int(input("Enter key : "))
+        val = input("Enter Value : ")
+        print(Insert(size,key,val,dict))
+    elif(ch==2):
+        key = int(input("Enter key for Search : "))
+        print(Search(key,dict))
+    elif(ch==3):
+        key = int(input("Enter key for that you want to delete : "))
+        print(Delete(key,dict))
     else:
         exit(0)
+     
