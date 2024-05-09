@@ -121,7 +121,7 @@ int main()
 	int X = Search(root,12);
 	if(X)
 	{
-		cout<<"\nSearch Successfully... Element Found!!!";
+		cout<<"\nSearch Sucessfully... Element Found!!!";
 	}
 	else
 	{
